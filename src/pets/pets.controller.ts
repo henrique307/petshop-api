@@ -12,7 +12,7 @@ import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiQuery, ApiResponse, 
 export class PetsController {
   constructor(private readonly petsService: PetsService) { }
 
-  @ApiBody({ type: [CreatePetDto], description: "pets infos" })
+  @ApiBody({ type: CreatePetDto, description: "pets infos" })
   @ApiOperation({ description: "register a pet in the database" })
   @ApiResponse({ status: HttpStatus.CREATED, description: "successfully registered the pet in the database" })
   @Post()
@@ -38,7 +38,7 @@ export class PetsController {
 
   @ApiOperation({ description: "Updates a specific pet from the database using its id" })
   @ApiParam({ name: 'id', type: Number, description: 'Pet ID', required: true })
-  @ApiBody({ type: [UpdatePetDto] })
+  @ApiBody({ type: UpdatePetDto })
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePetDto: UpdatePetDto) {
     return this.petsService.update(id, updatePetDto);

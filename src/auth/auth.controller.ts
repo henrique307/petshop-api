@@ -10,7 +10,7 @@ import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 export class AuthController {
     constructor(private readonly authService: AuthService) {}
 
-    @ApiBody({ type: [CreateUserDTO], description: "user infos" })
+    @ApiBody({ type: CreateUserDTO, description: "user infos" })
     @ApiOperation({ description: "register a user in the database for future logins, you need to have a registration in order to get a bearer token and use the routes" })
     @ApiResponse({ status: HttpStatus.CREATED, description: "successfully registered the user in the database" })
     @Post('register')
@@ -18,7 +18,7 @@ export class AuthController {
         return this.authService.register(body);
     }
     
-    @ApiBody({ type: [LogInUserDTO], description: "user infos" })
+    @ApiBody({ type: LogInUserDTO, description: "user infos" })
     @ApiOperation({ description: "regiter yourself, so you can login first" })
     @ApiResponse({ status: HttpStatus.OK, description: "successfully loged in" })
     @Post('login')

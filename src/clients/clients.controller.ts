@@ -12,7 +12,7 @@ import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiQuery, ApiResponse, 
 export class ClientsController {
   constructor(private readonly clientsService: ClientsService) { }
 
-  @ApiBody({ type: [CreateClientDto], description: "client infos" })
+  @ApiBody({ type: CreateClientDto, description: "client infos" })
   @ApiOperation({ description: "register a client in the database" })
   @ApiResponse({ status: HttpStatus.CREATED, description: "successfully registered the client in the database" })
   @Post()
@@ -39,7 +39,7 @@ export class ClientsController {
 
   @ApiOperation({ description: "Updates a specific user from the database using its id" })
   @ApiParam({ name: 'id', type: Number, description: 'User ID', required: true })
-  @ApiBody({ type: [UpdateClientDto] })
+  @ApiBody({ type: UpdateClientDto })
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateClientDto: UpdateClientDto) {
     return this.clientsService.update(id, updateClientDto);

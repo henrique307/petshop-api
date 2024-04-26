@@ -5,10 +5,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './schema/user.schema';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { config } from 'dotenv';
 import { JwtStrategy } from './jwt/jwt.strategy';
-
-config()
+import { config } from 'src/config';
 
 @Module({
   imports: [
@@ -17,7 +15,7 @@ config()
       { name: User.name, schema: UserSchema }
     ]),
     JwtModule.register({
-      secret: process.env.JWT_SECRET,
+      secret: config.app.JWT_SECRET,
       signOptions: { expiresIn: '3d' },
     }),
   ],

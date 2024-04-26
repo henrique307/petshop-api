@@ -2,15 +2,13 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { ClientsModule } from './clients/clients.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { config } from 'dotenv'
+import { config } from './config'
 import { PetsModule } from './pets/pets.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/jwt/jwt-auth.guard';
 import { APP_GUARD } from '@nestjs/core';
 
-config()
-
-const pass = encodeURIComponent(process.env.MONGODB_PASS);
+const pass = encodeURIComponent(config.app.MONGODB_PASS);
 
 @Module({
   controllers: [AppController],
