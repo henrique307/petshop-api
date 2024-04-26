@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateClientDto } from './client.dto/create-client.dto';
 import { UpdateClientDto } from './client.dto/update-client.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -32,15 +32,28 @@ export class ClientsService {
       .exec()
   }
 
-  findOne(id: string) {
-    return this.clientModel.findById(id);
+  async findOne(id: string) {
+    const client = await (this.clientModel.findById(id).populate("pets"));
+    if (!client) throw new NotFoundException("Client Id not foung in our database");
+
+    const detaildClient = client.populate("pets");
+
+    return detaildClient;
   }
 
-  update(id: string, updateClientDto: UpdateClientDto) {
-    return this.clientModel.updateOne({ _id: id }, updateClientDto)
+  async update(id: string, updateClientDto: UpdateClientDto) {
+    const itemAlterado = await this.clientModel.updateOne({ _id: id }, updateClientDto)
+
+    if(!itemAlterado.matchedCount) throw new NotFoundException("Client Id not found in our database");
+
+    return itemAlterado;
   }
 
-  remove(id: string) {
-    return this.clientModel.deleteOne({ _id: id });
+  async remove(id: string) {
+    const itemDeletado = await this.clientModel.deleteOne({_id: id});
+
+    if(!itemDeletado.deletedCount) throw new NotFoundException("Client Id not found in our database");
+
+    return itemDeletado;
   }
 }

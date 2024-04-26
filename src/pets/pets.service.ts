@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePetDto } from './pets.dto/create-pet.dto';
 import { UpdatePetDto } from './pets.dto/update-pet.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -48,15 +48,28 @@ export class PetsService {
       .exec()
   }
 
-  findOne(id: string) {
-    return this.petModel.findById(id);
+  async findOne(id: string) {
+    const pet = await this.petModel.findById(id);
+    if(!pet) throw new NotFoundException("PetId not found in our database")
+
+    const detaildPet = await pet.populate("owner");
+
+    return detaildPet;
   }
 
-  update(id: string, updatePetDto: UpdatePetDto) {
-    return this.petModel.updateOne({ _id: id }, updatePetDto);
+  async update(id: string, updatePetDto: UpdatePetDto) {
+    const itemAlterado = await this.petModel.updateOne({ _id: id }, updatePetDto)
+
+    if(!itemAlterado.matchedCount) throw new NotFoundException("Pet Id not found in our database");
+
+    return itemAlterado
   }
 
-  remove(id: string) {
-    return this.petModel.deleteOne({ _id: id });;
+  async remove(id: string) {
+    const itemDeletado = await this.clientModel.deleteOne({_id: id});
+
+    if(!itemDeletado.deletedCount) throw new NotFoundException("Pet Id not found in our database");
+
+    return itemDeletado;
   }
 }
