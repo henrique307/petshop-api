@@ -16,7 +16,7 @@ const pass = encodeURIComponent(config.app.MONGODB_PASS);
     ClientsModule,
     PetsModule,
     AuthModule,
-    MongooseModule.forRoot(`mongodb+srv://henrique:${pass}@cluster0.mzxpyql.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`)
+    MongooseModule.forRoot(`mongodb+srv://petshopOwner:${pass}@petshopcluster.w4vix5f.mongodb.net/?appName=petshopCluster`)
   ],
   providers: [
     {
