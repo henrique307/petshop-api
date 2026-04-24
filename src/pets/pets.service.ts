@@ -3,9 +3,8 @@ import { CreatePetDto } from './pets.dto/create-pet.dto';
 import { UpdatePetDto } from './pets.dto/update-pet.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Pet, PetsModel } from './schema/pet.schema';
-import { FilterQuery } from 'mongoose';
-import { Client, ClientModel } from 'src/clients/schema/client.schema';
-import { ClientsService } from 'src/clients/clients.service';
+import { DeleteResult, QueryFilter } from 'mongoose';
+import { Client, ClientModel } from '../clients/schema/client.schema';
 
 @Injectable()
 export class PetsService {
@@ -30,7 +29,7 @@ export class PetsService {
     return newPet.save();
   }
 
-  findAll(query: FilterQuery<Client>): Promise<Pet[]> | BadRequestException {
+  findAll(query: QueryFilter<Client>): Promise<Pet[]> | BadRequestException {
 
     if (Object.keys(query).length === 0) return this.petModel.find().exec();
     if (query._id) throw new BadRequestException({ message: "_id não pode ser usadno nesta rota para pesquisa, por favor utilize /clientes/:id" })
@@ -65,7 +64,7 @@ export class PetsService {
     return itemAlterado
   }
 
-  async remove(id: string) {
+  async remove(id: string): Promise<DeleteResult> {
     const itemDeletado = await this.clientModel.deleteOne({_id: id});
 
     if(!itemDeletado.deletedCount) throw new NotFoundException("Pet Id not found in our database");

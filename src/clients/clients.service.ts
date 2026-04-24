@@ -3,7 +3,7 @@ import { CreateClientDto } from './client.dto/create-client.dto';
 import { UpdateClientDto } from './client.dto/update-client.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Client, ClientModel } from './schema/client.schema';
-import { FilterQuery } from 'mongoose';
+import { DeleteResult, QueryFilter } from "mongoose";
 
 @Injectable()
 export class ClientsService {
@@ -14,7 +14,7 @@ export class ClientsService {
     return client.save();
   }
 
-  findAll(query: FilterQuery<Client>): Promise<Client[]> | BadRequestException {
+  findAll(query: QueryFilter<Client>): Promise<Client[]> | BadRequestException {
 
     if (Object.keys(query).length === 0) return this.clientModel.find().exec();
     if (query._id) throw new BadRequestException({ message: "_id não pode ser usadno nesta rota para pesquisa, por favor utilize /clientes/:id" })
@@ -49,7 +49,7 @@ export class ClientsService {
     return itemAlterado;
   }
 
-  async remove(id: string) {
+  async remove(id: string): Promise<DeleteResult> {
     const itemDeletado = await this.clientModel.deleteOne({_id: id});
 
     if(!itemDeletado.deletedCount) throw new NotFoundException("Client Id not found in our database");

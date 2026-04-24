@@ -3,7 +3,7 @@ import { ClientsService } from './clients.service';
 import { CreateClientDto } from './client.dto/create-client.dto';
 import { UpdateClientDto } from './client.dto/update-client.dto';
 import { Client } from './schema/client.schema';
-import { FilterQuery } from 'mongoose';
+import { DeleteResult, QueryFilter } from 'mongoose';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Clients')
@@ -26,7 +26,7 @@ export class ClientsController {
   @ApiQuery({ name: 'email', type: String, required: false, description: 'Filter users by email' })
   @ApiQuery({ name: 'phone', type: String, required: false, description: 'Filter users by phone' })
   @Get()
-  findAll(@Query() queryParams: FilterQuery<Client>) {
+  findAll(@Query() queryParams: QueryFilter<Client>) {
     return this.clientsService.findAll(queryParams);
   }
 
@@ -48,7 +48,7 @@ export class ClientsController {
   @ApiOperation({ description: "Deletes a specific user from the database using its id" })
   @ApiParam({ name: 'id', type: Number, description: 'User ID', required: true })
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: string): Promise<DeleteResult> {
     return this.clientsService.remove(id);
   }
 }

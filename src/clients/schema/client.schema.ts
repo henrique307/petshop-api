@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { ApiProperty } from "@nestjs/swagger";
-import mongoose, { HydratedDocument, Document, Schema as MongooseSchema } from "mongoose";
-import { Pet } from "src/pets/schema/pet.schema";
+import mongoose, { HydratedDocument, Document, Schema as MongooseSchema, Types } from "mongoose";
 
 export type ClientDocument = HydratedDocument<Client>;
 
@@ -33,7 +32,7 @@ export class Client extends Document {
         type: String
     })
     @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: 'Pet' }] })
-    pets: Pet[];
+    pets: Types.ObjectId[];
 }
 
 export const ClientSchema = SchemaFactory.createForClass(Client);

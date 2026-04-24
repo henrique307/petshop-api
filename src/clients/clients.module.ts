@@ -3,8 +3,7 @@ import { ClientsService } from './clients.service';
 import { ClientsController } from './clients.controller';
 import { Client, ClientSchema } from './schema/client.schema';
 import { MongooseModule } from '@nestjs/mongoose';
-import { APP_GUARD } from '@nestjs/core';
-import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
 
 @Module({
   controllers: [ClientsController],

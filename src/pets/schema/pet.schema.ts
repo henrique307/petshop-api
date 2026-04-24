@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { ApiProperty } from "@nestjs/swagger";
 import { ObjectId } from "mongodb";
 import mongoose, { Schema as MongooseSchema, HydratedDocument, Document } from "mongoose";
-import { Client } from "src/clients/schema/client.schema";
+import { Client } from "../../clients/schema/client.schema";
 
 export type PetDocument = HydratedDocument<Pet>;
 

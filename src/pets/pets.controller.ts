@@ -2,9 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query, HttpStatus } 
 import { PetsService } from './pets.service';
 import { CreatePetDto } from './pets.dto/create-pet.dto';
 import { UpdatePetDto } from './pets.dto/update-pet.dto';
-import { FilterQuery } from 'mongoose';
-import { Client } from 'src/clients/schema/client.schema';
+import { QueryFilter } from 'mongoose';
+import { DeleteResult } from 'mongodb';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Client } from '../clients/schema/client.schema';
 
 @ApiTags('Pets')
 @ApiBearerAuth()
@@ -25,7 +26,7 @@ export class PetsController {
   @ApiQuery({ name: 'name', type: String, required: false, description: 'Filter pets by name' })
   @ApiQuery({ name: 'age', type: Number, required: false, description: 'Filter pets by age' })
   @Get()
-  findAll(@Query() query: FilterQuery<Client>) {
+  findAll(@Query() query: QueryFilter<Client>) {
     return this.petsService.findAll(query);
   }
 
@@ -47,7 +48,7 @@ export class PetsController {
   @ApiOperation({ description: "Deletes a specific pet from the database using its id" })
   @ApiParam({ name: 'id', type: Number, description: 'Pet ID', required: true })
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: string): Promise<DeleteResult> {
     return this.petsService.remove(id);
   }
 }

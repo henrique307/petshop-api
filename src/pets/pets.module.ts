@@ -3,10 +3,8 @@ import { PetsService } from './pets.service';
 import { PetsController } from './pets.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Pet, PetSchema } from './schema/pet.schema';
-import { Client, ClientSchema } from 'src/clients/schema/client.schema';
-import { ClientsService } from 'src/clients/clients.service';
-import { APP_GUARD } from '@nestjs/core';
-import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard';
+import { Client, ClientSchema } from '../clients/schema/client.schema';
+import { ClientsService } from '../clients/clients.service';
 
 @Module({
   imports: [
