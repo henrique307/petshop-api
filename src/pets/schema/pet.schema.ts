@@ -7,7 +7,7 @@ import { Client } from "../../clients/schema/client.schema";
 export type PetDocument = HydratedDocument<Pet>;
 
 @Schema()
-export class Pet extends Document {
+export class Pet {
     @Prop()
     @ApiProperty()
     name: string;
@@ -22,5 +22,3 @@ export class Pet extends Document {
 }
 
 export const PetSchema = SchemaFactory.createForClass(Pet);
-
-export const PetsModel = mongoose.model('Pet', PetSchema)

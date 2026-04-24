@@ -2,12 +2,12 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { CreateClientDto } from './client.dto/create-client.dto';
 import { UpdateClientDto } from './client.dto/update-client.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Client, ClientModel } from './schema/client.schema';
-import { DeleteResult, QueryFilter } from "mongoose";
+import { Client, ClientDocument } from './schema/client.schema';
+import { DeleteResult, Model, QueryFilter } from "mongoose";
 
 @Injectable()
 export class ClientsService {
-  constructor(@InjectModel(Client.name) private readonly clientModel: typeof ClientModel) { }
+  constructor(@InjectModel(Client.name) private readonly clientModel: Model<Client>) { }
 
   create(createClientDto: CreateClientDto): Promise<Client> {
     const client = new this.clientModel(createClientDto);

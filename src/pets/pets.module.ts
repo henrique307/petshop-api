@@ -3,17 +3,16 @@ import { PetsService } from './pets.service';
 import { PetsController } from './pets.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Pet, PetSchema } from './schema/pet.schema';
-import { Client, ClientSchema } from '../clients/schema/client.schema';
-import { ClientsService } from '../clients/clients.service';
+import { ClientsModule } from '../clients/clients.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: Pet.name, schema: PetSchema },
-      { name: Client.name, schema: ClientSchema }
-    ])
+      { name: Pet.name, schema: PetSchema }
+    ]),
+    ClientsModule
   ],
   controllers: [PetsController],
-  providers: [PetsService, ClientsService]
+  providers: [PetsService]
 })
-export class PetsModule { }
+export class PetsModule {}

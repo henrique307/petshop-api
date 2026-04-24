@@ -2,15 +2,15 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { CreatePetDto } from './pets.dto/create-pet.dto';
 import { UpdatePetDto } from './pets.dto/update-pet.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Pet, PetsModel } from './schema/pet.schema';
-import { DeleteResult, QueryFilter } from 'mongoose';
-import { Client, ClientModel } from '../clients/schema/client.schema';
+import { Pet, PetDocument } from './schema/pet.schema';
+import { DeleteResult, Model, QueryFilter } from 'mongoose';
+import { Client, ClientDocument } from '../clients/schema/client.schema';
 
 @Injectable()
 export class PetsService {
   constructor(
-    @InjectModel(Pet.name) private readonly petModel: typeof PetsModel,
-    @InjectModel(Client.name) private readonly clientModel: typeof ClientModel,
+    @InjectModel(Pet.name) private readonly petModel: Model<PetDocument>,
+    @InjectModel(Client.name) private readonly clientModel: Model<ClientDocument>,
   ) { }
 
   async create(createPetDto: CreatePetDto): Promise<Pet> {

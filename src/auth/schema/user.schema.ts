@@ -6,7 +6,7 @@ import { Document } from 'mongoose';
 export type UserDocument = HydratedDocument<User>
 
 @Schema()
-export class User extends Document {
+export class User {
     @ApiProperty()
     @Prop()
     email: string;
@@ -17,5 +17,3 @@ export class User extends Document {
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
-
-export const UserModel = mongoose.model("User", UserSchema);
